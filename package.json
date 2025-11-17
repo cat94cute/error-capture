@@ -2,7 +2,15 @@
   "name": "error-capture",
   "type": "module",
   "version": "1.0.1",
-  "private": true,
+  "private": false,
+  "description": "前端 Vue 3 錯誤捕捉工具，支援全域 console、Vue、XHR、fetch 等錯誤攔截",
+  "author": "Whiskas",
+  "license": "MIT",
+  "homepage": "https://github.com/cat94cute/error-capture#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cat94cute/error-capture"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
