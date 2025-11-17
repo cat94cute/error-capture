@@ -32,3 +32,43 @@ export function addErrorCallback(cb: (data: ConsoleCaptureData) => void): (() =>
   callbacks.add(cb)
   return () => callbacks.delete(cb)
 }
+
+export function formattedMessages(error: unknown): string {
+  // 如果是陣列（例如 console.error([...args])）
+  if (Array.isArray(error)) {
+    return error.map(e => formatSingleError(e)).join('\n')
+  }
+
+  // 如果是單一錯誤
+  return formatSingleError(error)
+}
+
+function formatSingleError(err: unknown): string {
+  try {
+    // Error 類型（包含 message + stack）
+    if (err instanceof Error) {
+      const message = err.message ?? '(no message)'
+      const stack = err.stack ?? '(no stack trace)'
+
+      return `Message:${message}\nStack:${stack}`
+    }
+
+    // 物件但不是 Error
+    if (typeof err === 'object' && err !== null) {
+      console.log(1, err)
+
+      try {
+        return JSON.stringify(err, null, 2)
+      }
+      catch {
+        return String(err)
+      }
+    }
+
+    // 字串或其他原始型別
+    return String(err)
+  }
+  catch (e) {
+    return `Error while formatting message: ${String(e)}`
+  }
+}
